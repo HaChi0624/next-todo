@@ -1,5 +1,6 @@
-import router from "next/router";
 import { FormEvent, useState } from "react";
+import router from "next/router";
+import { Button } from "@chakra-ui/react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../../firebase'
 
@@ -42,9 +43,13 @@ export const SignUp = () => {
           />
         </div>
         <div>
-          <button>登録</button>
+          <Button onClick={() => alert('登録されました')}>登録</Button>
         </div>
       </form>
     </div>
   );
 };
+
+//やりたいこと
+//登録が済んだらtodoへ
+//既に登録されている場合の処理
