@@ -1,14 +1,16 @@
-import router from "next/router";
 import { FormEvent, useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../../firebase'
+import router from "next/router";
+import { Button } from "@chakra-ui/react";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { app } from "../../lib/firebase";
 
-export const SignUp = () => {
+const SignUp = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const auth = getAuth(app);
     await createUserWithEmailAndPassword(auth, email, password);
     router.push("/");
   };
@@ -42,9 +44,15 @@ export const SignUp = () => {
           />
         </div>
         <div>
-          <button>登録</button>
+          <Button onClick={() => alert("登録されました")}>登録</Button>
         </div>
       </form>
     </div>
   );
 };
+
+export default SignUp;
+
+//やりたいこと
+//登録が済んだらtodoへ
+//既に登録されている場合の処理
