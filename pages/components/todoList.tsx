@@ -6,7 +6,7 @@ export const TodoList = () => {
       <h1>todo</h1>
       <Link href="/posts/signUp">signUp</Link>
       <br />
-      <Link href="/posts/signUp">logIn</Link>
+      <Link href="/posts/aaa">aaa</Link>
     </>
   );
 }
