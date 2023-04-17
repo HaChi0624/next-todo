@@ -1,6 +1,7 @@
+// ユーザー登録ページ
 import { FormEvent, useState } from "react";
 import router from "next/router";
-import { Button } from "@chakra-ui/react";
+import { Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { app } from "../../lib/firebase";
 
@@ -22,12 +23,12 @@ const SignUp = () => {
   };
 
   return (
-    <div>
+    <FormControl>
       <h1>ユーザ登録</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>メールアドレス</label>
-          <input
+          <FormLabel>メールアドレス</FormLabel>
+          <Input
             name="email"
             type="email"
             placeholder="email"
@@ -35,8 +36,8 @@ const SignUp = () => {
           />
         </div>
         <div>
-          <label>パスワード</label>
-          <input
+          <FormLabel>パスワード</FormLabel>
+          <Input
             name="password"
             type="password"
             placeholder="password"
@@ -47,7 +48,8 @@ const SignUp = () => {
           <Button onClick={() => alert("登録されました")}>登録</Button>
         </div>
       </form>
-    </div>
+      <Button onClick={() => router.push("/")}>todoリストへ</Button>
+    </FormControl>
   );
 };
 
@@ -56,3 +58,8 @@ export default SignUp;
 //やりたいこと
 //登録が済んだらtodoへ
 //既に登録されている場合の処理
+// ページ遷移にするか、モーダルにするか
+
+
+// 悩んだこと
+//export defaultにしないとページ遷移できなかった
