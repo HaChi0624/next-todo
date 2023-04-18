@@ -41,14 +41,14 @@ export const TodoList = () => {
           </Thead>
           <Tbody>
             <Tr>
-              <Td></Td>
+              <Td>ログイン・ログアウト機能実装</Td>
               <Td></Td>
               <Td>未完了</Td>
               <Td></Td>
             </Tr>
             <Tr>
-              <Td></Td>
-              <Td></Td>
+              <Td>firestoreの設定 or recoil</Td>
+              <Td>めんどくさそう</Td>
               <Td>未完了</Td>
               <Td></Td>
             </Tr>
