@@ -4,7 +4,6 @@ import {
   FormHelperText,
   FormLabel,
   Input,
-  Stack,
   VStack,
 } from "@chakra-ui/react";
 
@@ -13,14 +12,14 @@ export const InputTodo = () => {
     <VStack>
       <Box>新規追加</Box>
       <FormControl width="80%" margin="0 auto">
-        <div>
+        <Box>
           <FormLabel>件名</FormLabel>
           <Input />
-        </div>
-        <div>
+        </Box>
+        <Box>
           <FormLabel>内容</FormLabel>
           <Input />
-        </div>
+        </Box>
         <FormHelperText>*件名は必ず入れてください</FormHelperText>
       </FormControl>
     </VStack>

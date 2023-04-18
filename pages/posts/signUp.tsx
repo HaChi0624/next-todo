@@ -1,9 +1,10 @@
 // ユーザー登録ページ
 import { FormEvent, useState } from "react";
 import router from "next/router";
-import { Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { Box, Button, FormControl, FormLabel, Input, Text } from "@chakra-ui/react";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { app } from "../../lib/firebase";
+import { Header } from "../components/header";
 
 const SignUp = () => {
   const [email, setEmail] = useState<string>("");
@@ -23,33 +24,36 @@ const SignUp = () => {
   };
 
   return (
-    <FormControl>
-      <h1>ユーザ登録</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <FormLabel>メールアドレス</FormLabel>
-          <Input
-            name="email"
-            type="email"
-            placeholder="email"
-            onChange={handleChangeEmail}
-          />
-        </div>
-        <div>
-          <FormLabel>パスワード</FormLabel>
-          <Input
-            name="password"
-            type="password"
-            placeholder="password"
-            onChange={handleChangePassword}
-          />
-        </div>
-        <div>
-          <Button onClick={() => alert("登録されました")}>登録</Button>
-        </div>
-      </form>
-      <Button onClick={() => router.push("/")}>todoリストへ</Button>
-    </FormControl>
+    <>
+      <Header />
+      <Box width='40%' margin='0 auto' paddingTop='100'>
+        <Text fontSize='3xl' marginBottom='3'>ユーザ登録</Text>
+        <form onSubmit={handleSubmit}>
+          <FormControl>
+            <FormLabel>メールアドレス</FormLabel>
+            <Input
+              name="email"
+              type="email"
+              placeholder="email"
+              onChange={handleChangeEmail}
+            />
+          </FormControl>
+          <FormControl>
+            <FormLabel>パスワード</FormLabel>
+            <Input
+              name="password"
+              type="password"
+              placeholder="password"
+              onChange={handleChangePassword}
+            />
+          </FormControl>
+          <Box marginTop='3'>
+            <Button onClick={() => alert("登録されました")}>登録</Button>
+          </Box>
+        </form>
+        {/* <Button onClick={() => router.push("/")}>todoリストへ</Button> */}
+      </Box>
+    </>
   );
 };
 
@@ -59,7 +63,6 @@ export default SignUp;
 //登録が済んだらtodoへ
 //既に登録されている場合の処理
 // ページ遷移にするか、モーダルにするか
-
 
 // 悩んだこと
 //export defaultにしないとページ遷移できなかった
