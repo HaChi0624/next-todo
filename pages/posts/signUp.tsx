@@ -2,8 +2,8 @@
 import { FormEvent, useState } from "react";
 import router from "next/router";
 import { Box, Button, FormControl, FormLabel, Input, Text } from "@chakra-ui/react";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-import { app } from "../../lib/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../lib/firebase";
 import { Header } from "../components/header";
 
 const SignUp = () => {
@@ -12,7 +12,6 @@ const SignUp = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const auth = getAuth(app);
     await createUserWithEmailAndPassword(auth, email, password);
     router.push("/");
   };

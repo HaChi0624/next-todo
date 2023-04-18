@@ -1,4 +1,7 @@
 //Todo一覧表示ページ
+import { db } from "../../lib/firebase";
+import { doc, getDocs, addDoc, collection, deleteDoc } from 'firebase/firestore';
+import { Todo } from '../../types/todoType'
 import {
   Box,
   Tab,
@@ -15,8 +18,14 @@ import {
   Tr,
   VStack,
 } from "@chakra-ui/react";
+import { useState } from "react";
+
+
 
 export const TodoList = () => {
+  const [title, setTitle] = useState<string>('')
+
+
   return (
     <VStack>
       <Box textAlign="center">Todo一覧</Box>
@@ -75,3 +84,6 @@ export const TodoList = () => {
 
 //まだ形だけ
 //tab切り替えでページ遷移になる？
+
+//参考
+//https://qiita.com/kashimuuuuu/items/0cc99820d120aae473fe#%E6%BA%96%E5%82%99firebase%E3%81%AE%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B
