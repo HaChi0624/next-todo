@@ -32,10 +32,20 @@ export const TodoList = () => {
 
   //データの取得
   useEffect(() => {
-    const postData = collection(db, "todos");
-    getDocs(postData).then((snapshot) => {
+    const todoData = collection(db, "todos");
+    getDocs(todoData).then((snapshot) => {
+      const todoList: Todo[] = []
+      snapshot.docs.map((doc) => {
+        const todo: Todo = {
+          id: doc.id,
+          title: doc.data().title,
+          content: doc.data().content,
+          isDone: doc.data().isDone,
+        }
+        todoList.push(todo);
+      })
       // console.log(snapshot.docs.map((doc) => ({...doc.data()})))
-      setTodos(snapshot.docs.map((doc) => ({ ...doc.data() })));
+      setTodos(todoList);
     });
   }, []);
 
@@ -66,7 +76,7 @@ export const TodoList = () => {
               <Tr key={todo.id}>
                 <Td>{todo.title}</Td>
                 <Td>{todo.content}</Td>
-                <Td>{todo.isDone}</Td>
+                <Td>{todo.isDone === false ? '未完了' : '完了'}</Td>
                 <Td></Td>
               </Tr>
             ))}
