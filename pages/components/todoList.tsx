@@ -1,7 +1,14 @@
 //Todo一覧表示ページ
 import { db } from "../../lib/firebase";
-import { doc, getDocs, addDoc, collection, deleteDoc } from 'firebase/firestore';
-import { Todo } from '../../types/todoType'
+import {
+  doc,
+  getDocs,
+  addDoc,
+  collection,
+  deleteDoc,
+  SnapshotOptions,
+} from "firebase/firestore";
+import { Todo } from "../../types/todoType";
 import {
   Box,
   Tab,
@@ -18,13 +25,19 @@ import {
   Tr,
   VStack,
 } from "@chakra-ui/react";
-import { useState } from "react";
-
-
+import { useEffect, useState } from "react";
 
 export const TodoList = () => {
-  const [title, setTitle] = useState<string>('')
+  const [todos, setTodos] = useState<Todo[]>([]);
 
+  //データの取得
+  useEffect(() => {
+    const postData = collection(db, "todos");
+    getDocs(postData).then((snapshot) => {
+      // console.log(snapshot.docs.map((doc) => ({...doc.data()})))
+      setTodos(snapshot.docs.map((doc) => ({ ...doc.data() })));
+    });
+  }, []);
 
   return (
     <VStack>
@@ -49,6 +62,14 @@ export const TodoList = () => {
             </Tr>
           </Thead>
           <Tbody>
+            {todos.map((todo) => (
+              <Tr key={todo.id}>
+                <Td>{todo.title}</Td>
+                <Td>{todo.content}</Td>
+                <Td>{todo.isDone}</Td>
+                <Td></Td>
+              </Tr>
+            ))}
             <Tr>
               <Td>ログイン・ログアウト機能実装</Td>
               <Td></Td>
