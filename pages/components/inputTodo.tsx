@@ -12,16 +12,21 @@ import {
 } from "@chakra-ui/react";
 
 export const InputTodo = () => {
-  const [inputText, setInputText] = useState("");
+  const [inputTitle, setInputTitle] = useState("");
+  const [inputContent, setInputContent] = useState("");
 
+  //submit
   const onSubmitAdd = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (inputText === "") return;
-    await addDoc(collection(db, "todos"), {
-      text: inputText,
+    if (inputTitle === "") return;
+    const todoData = collection(db, "todos");
+    await addDoc(todoData, {
+      title: inputTitle,
+      content: inputContent,
+      isDone: false,
     });
-    setInputText("");
-    alert(inputText);
+    setInputTitle("");
+    setInputContent("");
   };
 
   return (
@@ -29,25 +34,31 @@ export const InputTodo = () => {
       <Box textAlign="center">新規追加</Box>
       <FormControl width="40%" margin="0 auto">
         <form onSubmit={onSubmitAdd}>
-          <Box>
+          <div>
             <FormLabel>件名</FormLabel>
             <Input
-              value={inputText}
+              value={inputTitle}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setInputText(e.target.value)
+                setInputTitle(e.target.value)
               }
             />
-          </Box>
-          <Box>
+          </div>
+          <div>
             <FormLabel>内容</FormLabel>
-            <Input />
-          </Box>
-          <FormHelperText>*件名は必ず入れてください</FormHelperText>
-          <Button>追加</Button>
+            <Input
+              value={inputContent}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setInputContent(e.target.value)
+              }
+            />
+          </div>
+
+          <Button type="submit">登録</Button>
         </form>
       </FormControl>
     </>
   );
 };
 
-// まだ形だけ
+//画面をリロードしないとリストに表示されない
+//chakra ui Buttonにsubmit属性はない
