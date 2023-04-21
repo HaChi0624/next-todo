@@ -35,6 +35,7 @@ export const useTodoList = () => {
     });
   };
 
+  //削除
   const deleteTodo = async (id: string) => {
     const todoDocumentData = doc(db, "todos", id);
     await deleteDoc(todoDocumentData);
@@ -43,6 +44,10 @@ export const useTodoList = () => {
 
   return { todos, deleteTodo, dispData };
 };
+
+
+
+
 
 export const useInputTodo = () => {
   const { dispData } = useTodoList();
@@ -63,6 +68,7 @@ export const useInputTodo = () => {
     setInputContent("");
     dispData();
   };
+
+  return { inputTitle, setInputTitle, inputContent, setInputContent, addTodo };
 };
 
-//削除

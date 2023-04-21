@@ -10,30 +10,17 @@ import {
   FormLabel,
   Input,
 } from "@chakra-ui/react";
+import { useInputTodo } from "@/hooks/useTodo";
 
 export const InputTodo = () => {
-  const [inputTitle, setInputTitle] = useState("");
-  const [inputContent, setInputContent] = useState("");
-
-  //submit
-  const onSubmitAdd = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (inputTitle === "") return;
-    const todoData = collection(db, "todos");
-    await addDoc(todoData, {
-      title: inputTitle,
-      content: inputContent,
-      isDone: false,
-    });
-    setInputTitle("");
-    setInputContent("");
-  };
+  const { inputTitle, setInputTitle, inputContent, setInputContent, addTodo } =
+    useInputTodo();
 
   return (
     <>
       <Box textAlign="center">新規追加</Box>
       <FormControl width="40%" margin="0 auto">
-        <form onSubmit={onSubmitAdd}>
+        <form onSubmit={addTodo}>
           <div>
             <FormLabel>件名</FormLabel>
             <Input
