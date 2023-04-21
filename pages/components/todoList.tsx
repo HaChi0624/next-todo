@@ -68,7 +68,7 @@ export const TodoList = () => {
                 <Td>{todo.content}</Td>
                 <Td>
                   <Button>編集</Button>
-                  <Button onClick={deleteTodo}>削除</Button>
+                  <Button onClick={() => deleteTodo(todo.id)}>削除</Button>
                 </Td>
               </Tr>
             ))}

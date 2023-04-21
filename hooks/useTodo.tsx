@@ -35,8 +35,8 @@ export const useTodoList = () => {
     });
   };
 
-  const deleteTodo = async () => {
-    const todoDocumentData = doc(db, "todos");
+  const deleteTodo = async (id: string) => {
+    const todoDocumentData = doc(db, "todos", id);
     await deleteDoc(todoDocumentData);
     dispData();
   };
