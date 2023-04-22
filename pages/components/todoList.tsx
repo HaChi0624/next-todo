@@ -1,19 +1,11 @@
 //Todo一覧表示ページ
-import { db } from "../../lib/firebase";
-import {
-  doc,
-  getDocs,
-  addDoc,
-  collection,
-  deleteDoc,
-  SnapshotOptions,
-} from "firebase/firestore";
-import { Todo } from "../../types/todoType";
 import {
   Box,
   Button,
   Tab,
   TabList,
+  TabPanel,
+  TabPanels,
   Table,
   TableCaption,
   TableContainer,
@@ -25,64 +17,123 @@ import {
   Thead,
   Tr,
   VStack,
-  color,
 } from "@chakra-ui/react";
-import { FC } from "react";
 import { useTodoList } from "@/hooks/useTodo";
+import { useEffect } from "react";
+import { TableHead } from "./atom/tableComponents/TableHead";
+import { TableFoot } from "./atom/tableComponents/TableFoot";
 
 export const TodoList = () => {
-  const { todos, deleteTodo } = useTodoList();
+  const { todos, deleteTodo, dispData } = useTodoList();
+
+  useEffect(() => {
+    dispData();
+  }, []);
+
+  const incompletedTodos = todos.filter((todo) => todo.isDone === false);
+  const completedTodos = todos.filter((todo) => todo.isDone !== false);
 
   return (
     <VStack>
-      <Box textAlign="center">Todo一覧</Box>
+      <Box>Todo一覧</Box>
       <Tabs>
-        <TabList>
+        <TabList margin="0 0 0 auto">
           <Tab>全て</Tab>
           <Tab>未完了</Tab>
           <Tab>完了</Tab>
         </TabList>
+
+        <TabPanels>
+          {/* 全体テーブル */}
+          <TabPanel>
+            <TableContainer>
+              <Table variant="simple">
+                <TableCaption>ソート機能が欲しいよね</TableCaption>
+                <TableHead />
+                <Tbody>
+                  {todos.map((todo) => (
+                    <Tr key={todo.id}>
+                      <Td>
+                        {todo.isDone === false ? (
+                          <Box color="red">未完了</Box>
+                        ) : (
+                          <Box color="blue">完了</Box>
+                        )}
+                      </Td>
+                      <Td>{todo.title}</Td>
+                      <Td>{todo.content}</Td>
+                      <Td>
+                        <Button>編集</Button>
+                        <Button onClick={() => deleteTodo(todo.id)}>
+                          削除
+                        </Button>
+                      </Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+                <TableFoot />
+              </Table>
+            </TableContainer>
+          </TabPanel>
+
+          {/* 未完了テーブル */}
+          <TabPanel>
+            <TableContainer>
+              <Table>
+                <TableHead />
+                todoの新規追加をしてください。
+                {/* if文で切り替えたい */}
+                <Tbody>
+                  {incompletedTodos.map((todo) => (
+                    <Tr key={todo.id}>
+                      <Td>
+                        <Box color="red">未完了</Box>
+                      </Td>
+                      <Td>{todo.title}</Td>
+                      <Td>{todo.content}</Td>
+                      <Td>
+                        <Button>編集</Button>
+                        <Button onClick={() => deleteTodo(todo.id)}>
+                          削除
+                        </Button>
+                      </Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+                <TableFoot />
+              </Table>
+            </TableContainer>
+          </TabPanel>
+
+          {/* 完了テーブル */}
+          <TabPanel>
+            <TableContainer>
+              <Table>
+                <TableHead />
+                完了したtodoはありません。
+                <Tbody>
+                  {completedTodos.map((todo) => (
+                    <Tr key={todo.id}>
+                      <Td>
+                        <Box color="blue">完了</Box>
+                      </Td>
+                      <Td>{todo.title}</Td>
+                      <Td>{todo.content}</Td>
+                      <Td>
+                        <Button>編集</Button>
+                        <Button onClick={() => deleteTodo(todo.id)}>
+                          削除
+                        </Button>
+                      </Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+                <TableFoot />
+              </Table>
+            </TableContainer>
+          </TabPanel>
+        </TabPanels>
       </Tabs>
-      <TableContainer width="90%" margin="0 auto">
-        <Table variant="simple">
-          <TableCaption>説明は特になし</TableCaption>
-          <Thead>
-            <Tr backgroundColor="gray.200">
-              <Th>(ステータス)</Th>
-              <Th>(件名)</Th>
-              <Th>(内容)</Th>
-              <Th></Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {todos.map((todo) => (
-              <Tr key={todo.id}>
-                <Td className="tdStyle">
-                  {todo.isDone === false ? (
-                    <Box color="red">未完了</Box>
-                  ) : (
-                    <Box color="blue">完了</Box>
-                  )}
-                </Td>
-                <Td>{todo.title}</Td>
-                <Td>{todo.content}</Td>
-                <Td>
-                  <Button>編集</Button>
-                  <Button onClick={() => deleteTodo(todo.id)}>削除</Button>
-                </Td>
-              </Tr>
-            ))}
-          </Tbody>
-          <Tfoot>
-            <Tr backgroundColor="gray.200">
-              <Th>(件名)</Th>
-              <Th>(内容)</Th>
-              <Th>(ステータス)</Th>
-              <Th></Th>
-            </Tr>
-          </Tfoot>
-        </Table>
-      </TableContainer>
     </VStack>
   );
 };

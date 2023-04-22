@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { db } from "@/lib/firebase";
 import { Todo } from "@/types/todoType";
 import {
@@ -11,10 +11,6 @@ import {
 
 export const useTodoList = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
-
-  useEffect(() => {
-    dispData();
-  }, []);
 
   //データの取得
   const dispData = () => {
@@ -45,10 +41,6 @@ export const useTodoList = () => {
   return { todos, deleteTodo, dispData };
 };
 
-
-
-
-
 export const useInputTodo = () => {
   const { dispData } = useTodoList();
   const [inputTitle, setInputTitle] = useState("");
@@ -72,3 +64,4 @@ export const useInputTodo = () => {
   return { inputTitle, setInputTitle, inputContent, setInputContent, addTodo };
 };
 
+//addTodoでe.preventDefault()を消したら即時リストに追加されるけど、画面全体で再描画されるのがうっとうしい

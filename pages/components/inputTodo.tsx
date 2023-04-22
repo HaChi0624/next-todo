@@ -1,16 +1,11 @@
-import { ChangeEvent, SetStateAction, useState } from "react";
-import { db } from "../../lib/firebase";
-import { collection, addDoc } from "firebase/firestore";
-
+import { useInputTodo } from "@/hooks/useTodo";
 import {
   Box,
   Button,
   FormControl,
-  FormHelperText,
   FormLabel,
   Input,
 } from "@chakra-ui/react";
-import { useInputTodo } from "@/hooks/useTodo";
 
 export const InputTodo = () => {
   const { inputTitle, setInputTitle, inputContent, setInputContent, addTodo } =
