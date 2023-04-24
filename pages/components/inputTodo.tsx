@@ -1,30 +1,46 @@
+import { useTodoList } from "@/hooks/useTodo";
 import {
   Box,
+  Button,
   FormControl,
-  FormHelperText,
   FormLabel,
   Input,
-  Stack,
-  VStack,
 } from "@chakra-ui/react";
 
 export const InputTodo = () => {
+  const { inputTitle, setInputTitle, inputContent, setInputContent, addTodo } =
+    useTodoList();
+
   return (
-    <VStack>
-      <Box>新規追加</Box>
-      <FormControl width="80%" margin="0 auto">
-        <div>
-          <FormLabel>件名</FormLabel>
-          <Input />
-        </div>
-        <div>
-          <FormLabel>内容</FormLabel>
-          <Input />
-        </div>
-        <FormHelperText>*件名は必ず入れてください</FormHelperText>
+    <>
+      <Box textAlign="center">新規追加</Box>
+      <FormControl width="40%" margin="0 auto">
+        <form onSubmit={addTodo}>
+          <div>
+            <FormLabel>件名</FormLabel>
+            <Input
+              value={inputTitle}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setInputTitle(e.target.value)
+              }
+            />
+          </div>
+          <div>
+            <FormLabel>内容</FormLabel>
+            <Input
+              value={inputContent}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setInputContent(e.target.value)
+              }
+            />
+          </div>
+
+          <Button type="submit">登録</Button>
+        </form>
       </FormControl>
-    </VStack>
+    </>
   );
 };
 
-// まだ形だけ
+//画面をリロードしないとリストに表示されない
+//chakra ui Buttonにsubmit属性はない
