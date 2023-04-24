@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { db } from "@/lib/firebase";
 import { Todo } from "@/types/todoType";
 import {
   collection,
-  getDocs,
   doc,
   deleteDoc,
   addDoc,
@@ -100,4 +99,4 @@ export const useTodoList = () => {
 };
 
 //addTodoでe.preventDefault()を消したら即時リストに追加されるけど、画面全体で再描画されるのがうっとうしい
-//onSnapshot使うべきか
+//onSnapshot使うべきか→使わないと無理だった
