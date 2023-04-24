@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { db } from "@/lib/firebase";
 import { Todo } from "@/types/todoType";
 import {
@@ -8,12 +8,18 @@ import {
   deleteDoc,
   addDoc,
   updateDoc,
+  onSnapshot,
 } from "firebase/firestore";
 
 export const useTodoList = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [inputTitle, setInputTitle] = useState("");
   const [inputContent, setInputContent] = useState("");
+
+  //これいる？
+  // useEffect(() => {
+  //   dispData()
+  // },[]) 
 
   //データの取得
   const dispData = () => {
@@ -34,42 +40,12 @@ export const useTodoList = () => {
     });
   };
 
-  //完了⇔未完了
-  const toggleTodo = async (id: string) => {
-    const todoDocumentData = doc(db, "todos", id);
-    await updateDoc(todoDocumentData, {
-      isDone: true,
-    })
-      .then(() => {
-        console.log("ドキュメントを更新しました。");
-      })
-      .catch((error) => {
-        console.error("ドキュメントの更新に失敗しました。", error);
-      });
-    // dispData();
-  };
-
-  const editTodo = async (id: string) => {
-    const todoDocumentData = doc(db, "todos", id);
-    await updateDoc(todoDocumentData, {
-      title: inputTitle,
-      content: inputContent,
-    });
-    dispData();
-  };
-  //削除
-  const deleteTodo = async (id: string) => {
-    const todoDocumentData = doc(db, "todos", id);
-    await deleteDoc(todoDocumentData);
-    dispData();
-  };
-
-   // 追加
-   const addTodo = async (e: React.FormEvent<HTMLFormElement>) => {
+  // 追加
+  const addTodo = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (inputTitle === "") return;
     const todoData = collection(db, "todos");
-    await addDoc(todoData, {
+    addDoc(todoData, {
       title: inputTitle,
       content: inputContent,
       isDone: false,
@@ -79,10 +55,53 @@ export const useTodoList = () => {
     dispData();
   };
 
-  return { todos, deleteTodo, toggleTodo, editTodo, dispData,inputTitle, setInputTitle, inputContent, setInputContent, addTodo };
+  //完了⇔未完了
+  const toggleTodo = async (id: string) => {
+    const todoDocumentData = doc(db, "todos", id);
+    await updateDoc(todoDocumentData, {
+      isDone: true,
+    })
+      // .then(() => {
+      //   console.log("ドキュメントを更新しました。");
+      // })
+      // .catch((error) => {
+      //   console.error("ドキュメントの更新に失敗しました。", error);
+      // });
+    dispData();
+  };
+
+  //編集
+  const editTodo = async (id: string) => {
+    const todoDocumentData = doc(db, "todos", id);
+    await updateDoc(todoDocumentData, {
+      title: inputTitle,
+      content: inputContent,
+    });
+    dispData();
+  };
+
+  //削除
+  const deleteTodo = async (id: string) => {
+    const todoDocumentData = doc(db, "todos", id);
+    await deleteDoc(todoDocumentData);
+    dispData();
+  };
+
+
+
+  return {
+    todos,
+    deleteTodo,
+    toggleTodo,
+    editTodo,
+    dispData,
+    inputTitle,
+    setInputTitle,
+    inputContent,
+    setInputContent,
+    addTodo,
+  };
 };
-
-
 
 //addTodoでe.preventDefault()を消したら即時リストに追加されるけど、画面全体で再描画されるのがうっとうしい
 //onSnapshot使うべきか

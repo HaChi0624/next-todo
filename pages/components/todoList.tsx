@@ -64,7 +64,12 @@ export const TodoList = () => {
                       <Td>{todo.title}</Td>
                       <Td>{todo.content}</Td>
                       <Td>
-                        <EditModalButton id={todo.id} title={todo.title} content={todo.content} isDone={false} />
+                        <EditModalButton
+                          id={todo.id}
+                          title={todo.title}
+                          content={todo.content}
+                          isDone={false}
+                        />
                         <Button onClick={() => deleteTodo(todo.id)}>
                           削除
                         </Button>
@@ -82,7 +87,7 @@ export const TodoList = () => {
             <TableContainer>
               <Table>
                 <TableHead />
-                {/* if文で切り替えたい */}
+                {/* テーブルに何もない時、if文で切り替えたい */}
                 <Tbody>
                   {incompletedTodos.map((todo) => (
                     <Tr key={todo.id}>
@@ -92,7 +97,12 @@ export const TodoList = () => {
                       <Td>{todo.title}</Td>
                       <Td>{todo.content}</Td>
                       <Td>
-                        <Button onClick={() => toggleTodo(todo.id)}>編集</Button>
+                        <EditModalButton
+                          id={todo.id}
+                          title={todo.title}
+                          content={todo.content}
+                          isDone={false}
+                        />
                         <Button onClick={() => deleteTodo(todo.id)}>
                           削除
                         </Button>
@@ -119,7 +129,12 @@ export const TodoList = () => {
                       <Td>{todo.title}</Td>
                       <Td>{todo.content}</Td>
                       <Td>
-                        <Button>編集</Button>
+                        <EditModalButton
+                          id={todo.id}
+                          title={todo.title}
+                          content={todo.content}
+                          isDone={false}
+                        />
                         <Button onClick={() => deleteTodo(todo.id)}>
                           削除
                         </Button>
