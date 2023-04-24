@@ -22,9 +22,10 @@ import { useTodoList } from "@/hooks/useTodo";
 import { useEffect } from "react";
 import { TableHead } from "./atom/tableComponents/TableHead";
 import { TableFoot } from "./atom/tableComponents/TableFoot";
+import { EditModalButton } from "./editModal";
 
 export const TodoList = () => {
-  const { todos, deleteTodo, dispData } = useTodoList();
+  const { todos, deleteTodo, toggleTodo, dispData } = useTodoList();
 
   useEffect(() => {
     dispData();
@@ -63,7 +64,7 @@ export const TodoList = () => {
                       <Td>{todo.title}</Td>
                       <Td>{todo.content}</Td>
                       <Td>
-                        <Button>編集</Button>
+                        <EditModalButton id={todo.id} title={todo.title} content={todo.content} isDone={false} />
                         <Button onClick={() => deleteTodo(todo.id)}>
                           削除
                         </Button>
@@ -81,7 +82,6 @@ export const TodoList = () => {
             <TableContainer>
               <Table>
                 <TableHead />
-                todoの新規追加をしてください。
                 {/* if文で切り替えたい */}
                 <Tbody>
                   {incompletedTodos.map((todo) => (
@@ -92,7 +92,7 @@ export const TodoList = () => {
                       <Td>{todo.title}</Td>
                       <Td>{todo.content}</Td>
                       <Td>
-                        <Button>編集</Button>
+                        <Button onClick={() => toggleTodo(todo.id)}>編集</Button>
                         <Button onClick={() => deleteTodo(todo.id)}>
                           削除
                         </Button>
@@ -110,7 +110,6 @@ export const TodoList = () => {
             <TableContainer>
               <Table>
                 <TableHead />
-                完了したtodoはありません。
                 <Tbody>
                   {completedTodos.map((todo) => (
                     <Tr key={todo.id}>

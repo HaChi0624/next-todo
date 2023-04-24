@@ -7,6 +7,7 @@ import {
   doc,
   deleteDoc,
   addDoc,
+  updateDoc,
 } from "firebase/firestore";
 
 export const useTodoList = () => {
@@ -31,6 +32,25 @@ export const useTodoList = () => {
     });
   };
 
+  //完了⇔未完了
+  const toggleTodo = async (id: string) => {
+    const todoDocumentData = doc(db, "todos", id);
+    await updateDoc(todoDocumentData, {
+      isDone: true,
+    }).then(() => {
+      console.log('ドキュメントを更新しました。');
+    })
+    .catch((error) => {
+      console.error('ドキュメントの更新に失敗しました。', error);
+    });
+    dispData()
+  }
+
+  const editTodo = (id: string) => {
+    const todoDocumentData = doc(db, "todos", id);
+    
+  }
+
   //削除
   const deleteTodo = async (id: string) => {
     const todoDocumentData = doc(db, "todos", id);
@@ -38,7 +58,7 @@ export const useTodoList = () => {
     dispData();
   };
 
-  return { todos, deleteTodo, dispData };
+  return { todos, deleteTodo, toggleTodo, dispData };
 };
 
 export const useInputTodo = () => {
@@ -65,3 +85,4 @@ export const useInputTodo = () => {
 };
 
 //addTodoでe.preventDefault()を消したら即時リストに追加されるけど、画面全体で再描画されるのがうっとうしい
+//onSnapshot使うべきか
