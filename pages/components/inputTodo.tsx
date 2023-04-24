@@ -1,4 +1,4 @@
-import { useInputTodo } from "@/hooks/useTodo";
+import { useTodoList } from "@/hooks/useTodo";
 import {
   Box,
   Button,
@@ -9,7 +9,7 @@ import {
 
 export const InputTodo = () => {
   const { inputTitle, setInputTitle, inputContent, setInputContent, addTodo } =
-    useInputTodo();
+    useTodoList();
 
   return (
     <>

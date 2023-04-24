@@ -16,14 +16,15 @@ import {
 } from "@chakra-ui/react";
 import { FC } from "react";
 
-import { useInputTodo, useTodoList } from "../../hooks/useTodo";
+import { useTodoList } from "../../hooks/useTodo";
 
 type Props = Todo & {};
 
 export const EditModalButton: FC<Props> = (props) => {
   const { id, title, content, isDone } = props;
-  const { setInputTitle, setInputContent } = useInputTodo();
-  const { toggleTodo } = useTodoList();
+  const { toggleTodo, editTodo, setInputTitle, setInputContent } = useTodoList();
+  
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -59,7 +60,7 @@ export const EditModalButton: FC<Props> = (props) => {
             </Stack>
           </ModalBody>
           <ModalFooter>
-            <Button>保存</Button>
+            <Button onClick={() => editTodo(id)}>保存</Button>
             <Button backgroundColor="red.200">削除</Button>
           </ModalFooter>
         </ModalContent>

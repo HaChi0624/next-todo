@@ -12,6 +12,8 @@ import {
 
 export const useTodoList = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
+  const [inputTitle, setInputTitle] = useState("");
+  const [inputContent, setInputContent] = useState("");
 
   //データの取得
   const dispData = () => {
@@ -37,20 +39,24 @@ export const useTodoList = () => {
     const todoDocumentData = doc(db, "todos", id);
     await updateDoc(todoDocumentData, {
       isDone: true,
-    }).then(() => {
-      console.log('ドキュメントを更新しました。');
     })
-    .catch((error) => {
-      console.error('ドキュメントの更新に失敗しました。', error);
-    });
-    dispData()
-  }
+      .then(() => {
+        console.log("ドキュメントを更新しました。");
+      })
+      .catch((error) => {
+        console.error("ドキュメントの更新に失敗しました。", error);
+      });
+    // dispData();
+  };
 
-  const editTodo = (id: string) => {
+  const editTodo = async (id: string) => {
     const todoDocumentData = doc(db, "todos", id);
-    
-  }
-
+    await updateDoc(todoDocumentData, {
+      title: inputTitle,
+      content: inputContent,
+    });
+    dispData();
+  };
   //削除
   const deleteTodo = async (id: string) => {
     const todoDocumentData = doc(db, "todos", id);
@@ -58,16 +64,8 @@ export const useTodoList = () => {
     dispData();
   };
 
-  return { todos, deleteTodo, toggleTodo, dispData };
-};
-
-export const useInputTodo = () => {
-  const { dispData } = useTodoList();
-  const [inputTitle, setInputTitle] = useState("");
-  const [inputContent, setInputContent] = useState("");
-
-  // 追加
-  const addTodo = async (e: React.FormEvent<HTMLFormElement>) => {
+   // 追加
+   const addTodo = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (inputTitle === "") return;
     const todoData = collection(db, "todos");
@@ -81,8 +79,10 @@ export const useInputTodo = () => {
     dispData();
   };
 
-  return { inputTitle, setInputTitle, inputContent, setInputContent, addTodo };
+  return { todos, deleteTodo, toggleTodo, editTodo, dispData,inputTitle, setInputTitle, inputContent, setInputContent, addTodo };
 };
+
+
 
 //addTodoでe.preventDefault()を消したら即時リストに追加されるけど、画面全体で再描画されるのがうっとうしい
 //onSnapshot使うべきか
