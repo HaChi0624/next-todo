@@ -12,9 +12,6 @@ import {
   Tabs,
   Tbody,
   Td,
-  Tfoot,
-  Th,
-  Thead,
   Tr,
   VStack,
 } from "@chakra-ui/react";
@@ -33,6 +30,8 @@ export const TodoList = () => {
 
   const incompletedTodos = todos.filter((todo) => todo.isDone === false);
   const completedTodos = todos.filter((todo) => todo.isDone !== false);
+
+  
 
   return (
     <VStack>
@@ -56,9 +55,9 @@ export const TodoList = () => {
                     <Tr key={todo.id}>
                       <Td>
                         {todo.isDone === false ? (
-                          <Box color="red">未完了</Box>
+                          <Button onClick={() => toggleTodo(todo.id, todo.isDone)} color="red">未完了</Button>
                         ) : (
-                          <Box color="blue">完了</Box>
+                          <Button onClick={() => toggleTodo(todo.id, todo.isDone)} color="blue">完了</Button>
                         )}
                       </Td>
                       <Td>{todo.title}</Td>
@@ -92,7 +91,7 @@ export const TodoList = () => {
                   {incompletedTodos.map((todo) => (
                     <Tr key={todo.id}>
                       <Td>
-                        <Box color="red">未完了</Box>
+                        <Button onClick={() => toggleTodo(todo.id, todo.isDone)} color="red">未完了</Button>
                       </Td>
                       <Td>{todo.title}</Td>
                       <Td>{todo.content}</Td>
@@ -124,7 +123,7 @@ export const TodoList = () => {
                   {completedTodos.map((todo) => (
                     <Tr key={todo.id}>
                       <Td>
-                        <Box color="blue">完了</Box>
+                        <Button onClick={() => toggleTodo(todo.id, todo.isDone)} color="blue">完了</Button>
                       </Td>
                       <Td>{todo.title}</Td>
                       <Td>{todo.content}</Td>

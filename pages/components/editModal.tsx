@@ -51,17 +51,10 @@ export const EditModalButton: FC<Props> = (props) => {
                   onChange={(e) => setInputContent(e.target.value)}
                 />
               </FormControl>
-              <FormControl>
-                <FormLabel>ステータス</FormLabel>
-                <Button onClick={() => toggleTodo(id)}>
-                  {isDone !== false ? "完了" : "未完了"}
-                </Button>
-              </FormControl>
             </Stack>
           </ModalBody>
           <ModalFooter>
             <Button onClick={() => editTodo(id)}>保存</Button>
-            <Button backgroundColor="red.200">削除</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

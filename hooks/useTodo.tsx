@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { db } from "@/lib/firebase";
 import { Todo } from "@/types/todoType";
 import {
@@ -8,7 +8,7 @@ import {
   deleteDoc,
   addDoc,
   updateDoc,
-  onSnapshot,
+  onSnapshot
 } from "firebase/firestore";
 
 export const useTodoList = () => {
@@ -24,7 +24,7 @@ export const useTodoList = () => {
   //データの取得
   const dispData = () => {
     const todoData = collection(db, "todos");
-    getDocs(todoData).then((snapshot) => {
+    onSnapshot(todoData, (snapshot) => {
       const todoList: Todo[] = [];
       snapshot.docs.map((doc) => {
         const todo: Todo = {
@@ -41,34 +41,30 @@ export const useTodoList = () => {
   };
 
   // 追加
-  const addTodo = (e: React.FormEvent<HTMLFormElement>) => {
+  const addTodo = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (inputTitle === "") return;
     const todoData = collection(db, "todos");
-    addDoc(todoData, {
+    await addDoc(todoData, {
       title: inputTitle,
       content: inputContent,
       isDone: false,
     });
     setInputTitle("");
     setInputContent("");
-    dispData();
+    await dispData();
   };
 
   //完了⇔未完了
-  const toggleTodo = async (id: string) => {
+  const toggleTodo = async (id: string, isDone: boolean) => {
     const todoDocumentData = doc(db, "todos", id);
     await updateDoc(todoDocumentData, {
-      isDone: true,
+      isDone: !isDone,
     })
-      // .then(() => {
-      //   console.log("ドキュメントを更新しました。");
-      // })
-      // .catch((error) => {
-      //   console.error("ドキュメントの更新に失敗しました。", error);
-      // });
-    dispData();
+    await dispData();
   };
+
+  
 
   //編集
   const editTodo = async (id: string) => {
