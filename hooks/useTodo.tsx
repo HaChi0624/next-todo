@@ -18,12 +18,14 @@ export const useTodoList = () => {
   //これいる？
   // useEffect(() => {
   //   dispData()
-  // },[]) 
+  // },[])
 
   //データの取得
+  // 変数名わかりにくいかもですね、、、
   const dispData = () => {
     const todoData = collection(db, "todos");
     onSnapshot(todoData, (snapshot) => {
+      // このような空配列にpushしていく処理は極力避けましょう！理由はslackにて記事を共有します。
       const todoList: Todo[] = [];
       snapshot.docs.map((doc) => {
         const todo: Todo = {
@@ -55,6 +57,7 @@ export const useTodoList = () => {
   };
 
   //完了⇔未完了
+  // 変数名がこれもわかりにくいですかね、toggleTodoStatusとか？
   const toggleTodo = async (id: string, isDone: boolean) => {
     const todoDocumentData = doc(db, "todos", id);
     await updateDoc(todoDocumentData, {
@@ -63,7 +66,7 @@ export const useTodoList = () => {
     await dispData();
   };
 
-  
+
 
   //編集
   const editTodo = async (id: string) => {
