@@ -22,7 +22,7 @@ import { TableFoot } from "./atom/tableComponents/TableFoot";
 import { EditModalButton } from "./editModal";
 
 export const TodoList = () => {
-  const { todos, deleteTodo, toggleTodo, dispData } = useTodoList();
+  const { todos, deleteTodo, toggleTodoStatus, dispData } = useTodoList();
 
   useEffect(() => {
     dispData();
@@ -54,10 +54,10 @@ export const TodoList = () => {
                   {todos.map((todo) => (
                     <Tr key={todo.id}>
                       <Td>
-                        {todo.isDone === false ? (
-                          <Button onClick={() => toggleTodo(todo.id, todo.isDone)} color="red">未完了</Button>
+                        {todo.isDone ? (
+                          <Button onClick={() => toggleTodoStatus(todo.id, todo.isDone)} color="red">未完了</Button>
                         ) : (
-                          <Button onClick={() => toggleTodo(todo.id, todo.isDone)} color="blue">完了</Button>
+                          <Button onClick={() => toggleTodoStatus(todo.id, todo.isDone)} color="blue">完了</Button>
                         )}
                       </Td>
                       <Td>{todo.title}</Td>
@@ -91,7 +91,7 @@ export const TodoList = () => {
                   {incompletedTodos.map((todo) => (
                     <Tr key={todo.id}>
                       <Td>
-                        <Button onClick={() => toggleTodo(todo.id, todo.isDone)} color="red">未完了</Button>
+                        <Button onClick={() => toggleTodoStatus(todo.id, todo.isDone)} color="red">未完了</Button>
                       </Td>
                       <Td>{todo.title}</Td>
                       <Td>{todo.content}</Td>
@@ -123,7 +123,7 @@ export const TodoList = () => {
                   {completedTodos.map((todo) => (
                     <Tr key={todo.id}>
                       <Td>
-                        <Button onClick={() => toggleTodo(todo.id, todo.isDone)} color="blue">完了</Button>
+                        <Button onClick={() => toggleTodoStatus(todo.id, todo.isDone)} color="blue">完了</Button>
                       </Td>
                       <Td>{todo.title}</Td>
                       <Td>{todo.content}</Td>

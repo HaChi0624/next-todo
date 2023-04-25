@@ -22,7 +22,7 @@ type Props = Todo & {};
 
 export const EditModalButton: FC<Props> = (props) => {
   const { id, title, content, isDone } = props;
-  const { toggleTodo, editTodo, setInputTitle, setInputContent } = useTodoList();
+  const { editTodo, setInputTitle, setInputContent } = useTodoList();
   
 
   const { isOpen, onOpen, onClose } = useDisclosure();

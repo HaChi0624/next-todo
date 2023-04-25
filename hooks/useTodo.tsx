@@ -20,22 +20,24 @@ export const useTodoList = () => {
   //   dispData()
   // },[]) 
 
-  //データの取得
+  //データの取得　dispData
   const dispData = () => {
     const todoData = collection(db, "todos");
     onSnapshot(todoData, (snapshot) => {
-      const todoList: Todo[] = [];
-      snapshot.docs.map((doc) => {
+      // const todoList: Todo[] = []; 空の配列にpushしていくのは良くない
+      const newTodos = [...todos]
+      snapshot.docs.map((doc, index) => {
         const todo: Todo = {
           id: doc.id,
           title: doc.data().title,
           content: doc.data().content,
           isDone: doc.data().isDone,
         };
-        todoList.push(todo);
+        // newTodos.push(todo)
+        newTodos[index] = todo
       });
       console.log(snapshot.docs.map((doc) => ({ ...doc.data() })));
-      setTodos(todoList);
+      setTodos(newTodos);
     });
   };
 
@@ -55,7 +57,7 @@ export const useTodoList = () => {
   };
 
   //完了⇔未完了
-  const toggleTodo = async (id: string, isDone: boolean) => {
+  const toggleTodoStatus = async (id: string, isDone: boolean) => {
     const todoDocumentData = doc(db, "todos", id);
     await updateDoc(todoDocumentData, {
       isDone: !isDone,
@@ -87,7 +89,7 @@ export const useTodoList = () => {
   return {
     todos,
     deleteTodo,
-    toggleTodo,
+    toggleTodoStatus,
     editTodo,
     dispData,
     inputTitle,
@@ -100,3 +102,5 @@ export const useTodoList = () => {
 
 //addTodoでe.preventDefault()を消したら即時リストに追加されるけど、画面全体で再描画されるのがうっとうしい
 //onSnapshot使うべきか→使わないと無理だった
+
+// https://qiita.com/sh-suzuki0301/items/597bdbf17253feb5f55b
